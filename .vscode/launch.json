@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "debug-utiles",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/airwise-utils",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "start",
+                "--inspect"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "outputCapture": "std"
+        }
+    ]
+}

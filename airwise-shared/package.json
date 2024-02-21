@@ -1,0 +1,33 @@
+{
+  "name": "airwise-shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "generate": "graphql-codegen --config codegen.yml",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run generate && npx tsx ./src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typed-document-node": "^5.0.1",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-graphql-request": "^6.1.0",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@types/node": "^20.11.5",
+    "cd": "^0.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.8.10",
+    "cross-fetch": "^4.0.0",
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

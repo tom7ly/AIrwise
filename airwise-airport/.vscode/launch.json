@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug",
+            "runtimeExecutable": "npm",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "runtimeArgs": [
+                "run-script",
+                "start",
+                "--inspect"
+            ],
+            "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug-gen-clean",
+            "runtimeExecutable": "npm",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "runtimeArgs": [
+                "run-script",
+                "start-gen",
+                "--inspect"
+            ],
+            "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug-start-only",
+            "runtimeExecutable": "npm",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "runtimeArgs": [
+                "run-script",
+                "start-only",
+                "--inspect"
+            ],
+            "outputCapture": "std"
+        },
+    ]
+}

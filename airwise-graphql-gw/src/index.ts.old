@@ -1,0 +1,37 @@
+import Fastify from 'fastify';
+import mercuriusWithGateway from '@mercuriusjs/gateway';
+import { printSchema } from 'graphql';
+import { ServiceManager, IService } from './service-manager'
+const gateway = Fastify();
+
+
+
+const serviceManager = new ServiceManager();
+
+const init = async () => {
+    await serviceManager.init();
+    serviceManager.startServicePolling();
+    await gateway.register(mercuriusWithGateway, serviceManager.getGatewayConfig());
+    serviceManager.on("gatewayConfigUpdated", async () => {
+        const schema = await gateway.graphqlGateway.refresh();
+        if (schema !== null) {
+            console.log('schema updated')
+            gateway.graphql.replaceSchema(schema)
+        }
+
+    })
+
+    gateway.get('/current-schema', async (req, reply) => {
+        const schema = gateway.graphql.schema;
+        return printSchema(schema);
+    });
+    gateway.listen({ port: 4000 }, (err, address) => {
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+        console.log(`Server listening at ${address}`);
+    });
+}
+init()
+
