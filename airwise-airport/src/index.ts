@@ -11,8 +11,8 @@ import mongoose from 'mongoose'
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import path from 'path'
-import { initApollo } from '../backup/initApollo'
 import { initMerc } from './initMerc'
+import { initApollo } from './initApollo'
 
 // import { createAirportMutation } from './generated/mutations/createAirport'
 // import { AirportDataEnum } from './generated/enums/AirportDataEnum'

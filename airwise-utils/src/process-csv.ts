@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb';
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 import Papa from 'papaparse';
 interface AirportData {
     id: number;
@@ -27,9 +29,12 @@ export const loadCsv = async () => {
 
     const db = client.db('airwise');
     const collection = db.collection('airports');
+    const csvFilePath = path.resolve(__dirname, '../airports.csv');
 
-    const response = (await axios.get('http://localhost:3000/download/airports.csv'))
-    let unparsed_data = response.data
+    // Read the CSV file
+    const unparsed_data = fs.readFileSync(csvFilePath, 'utf-8');
+    // const response = (await axios.get('http://localhost:3000/download/airports.csv'))
+    // let unparsed_data = response.data
     let parsed_data: AirportData[] = [];
 
     Papa.parse<AirportData>(unparsed_data, {

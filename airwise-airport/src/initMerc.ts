@@ -2,19 +2,15 @@ import mercuriusWithFederation, { buildFederationSchema } from '@mercuriusjs/fed
 import Fastify from 'fastify';
 import mongoose, { get } from 'mongoose';
 import { schema, resolvers } from './schemas/airport.schema';
-import { CGClient } from './code-gen/cgclient/CGClient';
 import request, { gql } from 'graphql-request';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import path from 'path';
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { buildSchema, print, printSchema } from 'graphql';
-import { GraphQLCodeGenerator } from './code-gen/cgcore/GraphQLCodeGenerator';
-import { CGSchema } from './code-gen/cgcore/CGSchema';
 // import { getAirportsByContinentQuery } from './generated/queries/getAirportsByContinent';
 // import { AirportDataEnum } from './generated/enums/AirportDataEnum';
 import { importSchemasAndResolvers } from './getSchemas';
-import { generate } from './code-gen/cgclient/generate';
 import { queryTest } from './tests';
 
 
@@ -25,7 +21,6 @@ import { queryTest } from './tests';
 
 
 export const initMerc = async () => {
-    await generate()
     const app = Fastify()
     const imports = await importSchemasAndResolvers()
     await app.register(mercuriusWithFederation.mercuriusFederationPlugin, {

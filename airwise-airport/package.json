@@ -17,7 +17,8 @@
     "type": "module",
     "dependencies": {
         "@apollo/client": "^3.8.10",
-        "@apollo/server": "^4.10.0",
+        "@apollo/gateway": "^2.7.1",
+        "@apollo/server": "^4.10.1",
         "@apollo/subgraph": "^2.7.1",
         "@fastify/mongodb": "^8.0.0",
         "@graphql-tools/load-files": "^7.0.0",
@@ -35,6 +36,7 @@
         "graphql": "^16.8.1",
         "graphql-modules": "^2.3.0",
         "graphql-request": "^6.1.0",
+        "lodash": "^4.17.21",
         "mercurius": "^13.3.3",
         "module-alias": "^2.2.3",
         "mongoose": "^8.1.0",

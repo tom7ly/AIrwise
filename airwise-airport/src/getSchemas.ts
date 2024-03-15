@@ -22,3 +22,29 @@ export async function importSchemasAndResolvers(): Promise<SchemaAndResolvers> {
 
     return { schema: print(mergedSchema), resolvers: mergedResolvers as IResolvers };
 }
+
+import merge from 'lodash/merge';
+
+export interface SchemaAndResolversApollo {
+  schema: DocumentNode | string;
+  resolvers: Record<string, any>;
+}
+
+export async function importSchemasAndResolversApollo(): Promise<SchemaAndResolversApollo> {
+  const schemaFiles = glob.sync(path.join(process.cwd(), './src/schemas/*.schema.ts'));
+
+  const schemasAndResolvers = await Promise.all(
+    schemaFiles.map(async (file) => {
+      const { schema, resolvers } = await import(file);
+      return { schema, resolvers };
+    })
+  );
+
+  const mergedSchema = mergeTypeDefs(schemasAndResolvers.map((sr) => sr.schema));
+  const mergedResolvers = schemasAndResolvers.reduce(
+    (acc, { resolvers }) => merge(acc, resolvers),
+    {}
+  );
+
+  return { schema: print(mergedSchema), resolvers: mergedResolvers };
+}

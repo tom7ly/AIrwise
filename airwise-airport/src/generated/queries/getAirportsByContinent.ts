@@ -6,8 +6,8 @@ export const getAirportsByContinentQuery = (fields: AirportDataEnum[], continent
   const fieldsString = fields.join('\n\t\t\t\t\t');
   return {
       operation: gql`query ($continent: String!) {
-        getAirportsByContinent ( continent: $continent) {
-            ${fieldsString}
+          getAirportsByContinent ( continent: $continent) {
+              ${fieldsString}
         }
     }`,
       variables: { continent }
