@@ -1,17 +1,15 @@
 import path from 'path';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import { DocumentNode, print } from 'graphql';
-import { IResolvers } from 'mercurius';
 import { glob } from 'glob';
 
 export interface SchemaAndResolvers {
-    schema: DocumentNode | string;
-    resolvers: IResolvers;
+    schema: string;
+    resolvers: any;
 }
 
-export async function importSchemasAndResolvers(): Promise<SchemaAndResolvers> {
-    const schemaFiles = glob.sync(path.join(process.cwd(), './src/schemas/*.schema.ts'));
-
+export async function importSchemasAndResolvers(paths: string[] = ["./src/schemas/*.schema.ts"]): Promise<SchemaAndResolvers> {
+    const schemaFiles = paths.map(p => glob.sync(path.join(process.cwd(), p))).flat();
     const schemasAndResolvers = await Promise.all(schemaFiles.map(async (file) => {
         const { schema, resolvers } = await import(file);
         return { schema, resolvers };
@@ -20,31 +18,5 @@ export async function importSchemasAndResolvers(): Promise<SchemaAndResolvers> {
     const mergedSchema = mergeTypeDefs(schemasAndResolvers.map(sr => sr.schema));
     const mergedResolvers = mergeResolvers(schemasAndResolvers.map(sr => sr.resolvers));
 
-    return { schema: print(mergedSchema), resolvers: mergedResolvers as IResolvers };
-}
-
-import merge from 'lodash/merge';
-
-export interface SchemaAndResolversApollo {
-  schema: DocumentNode | string;
-  resolvers: Record<string, any>;
-}
-
-export async function importSchemasAndResolversApollo(): Promise<SchemaAndResolversApollo> {
-  const schemaFiles = glob.sync(path.join(process.cwd(), './src/schemas/*.schema.ts'));
-
-  const schemasAndResolvers = await Promise.all(
-    schemaFiles.map(async (file) => {
-      const { schema, resolvers } = await import(file);
-      return { schema, resolvers };
-    })
-  );
-
-  const mergedSchema = mergeTypeDefs(schemasAndResolvers.map((sr) => sr.schema));
-  const mergedResolvers = schemasAndResolvers.reduce(
-    (acc, { resolvers }) => merge(acc, resolvers),
-    {}
-  );
-
-  return { schema: print(mergedSchema), resolvers: mergedResolvers };
+    return { schema: print(mergedSchema), resolvers: mergedResolvers };
 }

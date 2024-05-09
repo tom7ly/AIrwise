@@ -12,11 +12,11 @@ export const GET_USER_QUERY = gql`
 
 
 export const schema = gql`
-  extend type Query  {
+   type Query  {
     getAirport(id: ID!): AirportData
     getAirportsByContinent(continent: String!): [AirportData]
 }
-  extend type Mutation {
+   type Mutation {
     createAirport(airport: AirportInput!): AirportData
   }
   input AirportInput {
