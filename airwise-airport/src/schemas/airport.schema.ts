@@ -12,20 +12,23 @@ export const GET_USER_QUERY = gql`
 
 
 export const schema = gql`
-   type Query  {
+  type Query {
     getAirport(id: ID!): AirportData
     getAirportsByContinent(continent: String!): [AirportData]
-}
-   type Mutation {
-    createAirport(airport: AirportInput!): AirportData
+    getAirportsByType(airportType: AirportType!): [AirportData]
   }
+
+  type Mutation {
+    createAirport(airport: AirportInput!): AirportData
+    updateAirport(id: ID!, airport: AirportInput!): AirportData
+    deleteAirport(id: ID!): AirportData
+  }
+
   input AirportInput {
     ident: String
     airportType: AirportType
     name: String
-    latitude_deg: Float
-    longitude_deg: Float
-    elevation_ft: Int
+    location: LocationInput
     continent: String
     iso_country: String
     iso_region: String
@@ -37,17 +40,27 @@ export const schema = gql`
     wikipedia_link: String
     keywords: String
   }
+
+  input LocationInput {
+    latitude_deg: Float
+    longitude_deg: Float
+    elevation_ft: Int
+  }
+
   enum AirportType {
     HELIPORT
-    }
+    SEAPLANE_BASE
+    SMALL_AIRPORT
+    MEDIUM_AIRPORT
+    LARGE_AIRPORT
+  }
+
   type AirportData {
     id: ID!
     ident: String
     airportType: AirportType
     name: String
-    latitude_deg: Float
-    longitude_deg: Float
-    elevation_ft: Int
+    location: Location
     continent: String
     iso_country: String
     iso_region: String
@@ -59,7 +72,14 @@ export const schema = gql`
     wikipedia_link: String
     keywords: String
   }
+
+  type Location {
+    latitude_deg: Float
+    longitude_deg: Float
+    elevation_ft: Int
+  }
 `
+
 
 export const resolvers = {
   Query: {
